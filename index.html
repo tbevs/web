@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to TylerBever.com!</title>
+    <style>
+        * {
+            cursor: url('https://ani.cursors-4u.net/games/gam-16/gam1537.cur'), auto !important;
+        }
+
+        body {
+            background-color: #FFCC00; /* Bright yellow background */
+            font-family: 'Comic Sans MS', cursive; /* Iconic 90s font */
+            color: #0000FF; /* Bright blue text */
+            text-align: center;
+        }
+        h1 {
+            color: #FF0000; /* Bright red headers */
+            text-decoration: underline;
+        }
+        marquee {
+            font-size: 20px;
+            color: #008000; /* Green scrolling text */
+        }
+        a {
+            font-size: 24px; /* Larger font size for emphasis */
+            font-family: 'Impact', 'Arial Black', cursive; /* Bold, impactful font */
+            background-color: #FFFF00; /* Yellow background */
+            color: #FF00FF; /* Bright magenta text */
+            text-decoration: none; /* No underline */
+            padding: 5px;
+            border: 3px solid #00FF00; /* Green border */
+            border-radius: 10px;
+            transition: 0.3s ease; /* Smooth transition for hover effect */
+        }
+        a:hover {
+            color: #00FFFF; /* Change to cyan on hover */
+            background-color: #FF00FF; /* Change to magenta background on hover */
+            text-decoration: underline; /* Underline on hover */
+            border-color: #FF0000; /* Change border to red on hover */
+        }
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+            -webkit-animation: blink-animation 1s steps(5, start) infinite;
+        }
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+        ul {
+            list-style-type: none;
+        }
+        ul li {
+            margin: 15px 0; /* Spacing between links */
+        }
+        footer {
+            margin-top: 50px;
+        }
+        img.mcafee {
+            width: 100px; /* Reduce size of the McAfee logo */
+        }
+
+        /* Animation for visitor count */
+        @keyframes scale-up-down {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+
+        #visitorCounter {
+            display: inline-block;
+            font-size: 48px;
+            color: #FF4500;
+            font-weight: bold;
+            animation: scale-up-down 0.8s infinite ease-in-out; /* Scaling animation */
+        }
+
+        /* Halloween-themed button */
+        .freaky-button {
+            font-size: 24px;
+            font-family: 'Creepster', cursive; /* Freaky Halloween font */
+            background-color: #FF4500; /* Halloween orange */
+            color: #000000; /* Black text */
+            padding: 10px 20px;
+            border: 3px solid #8B0000; /* Dark red border */
+            border-radius: 10px;
+            box-shadow: 5px 5px 20px #8B0000; /* Spooky shadow */
+            text-shadow: 2px 2px 4px #8B0000; /* Eerie text shadow */
+            transition: all 0.3s ease-in-out;
+            cursor: not-allowed; /* Disable button hover */
+        }
+
+        .freaky-button:hover {
+            background-color: #8B0000; /* Darker on hover */
+            color: #FF4500; /* Reverse text color on hover */
+            box-shadow: 5px 5px 30px #FF4500;
+            text-shadow: 2px 2px 4px #000000;
+        }
+    </style>
+    <script>
+        // JavaScript to update visitor counter and rapidly scale up and down
+        window.onload = function() {
+            // Function to generate a random number
+            function generateRandomNumber() {
+                return Math.floor(Math.random() * 100000) + 1;
+            }
+
+            // Function to rapidly change the visitor number every 0.5 seconds
+            function updateVisitorCounter() {
+                var visitorCounter = document.getElementById('visitorCounter');
+                setInterval(function() {
+                    visitorCounter.innerText = generateRandomNumber(); // Update with a new random number
+                }, 500); // Change the number every 500ms
+            }
+
+            updateVisitorCounter(); // Start the random number update
+        };
+    </script>
+</head>
+<body>
+
+    <h1>Welcome to TylerBever.com!</h1>
+    <p><blink>You're visitor number: <span id="visitorCounter">1</span>!!!</blink></p>
+
+    <marquee>Welcome to the best website ever! Enjoy your stay! :)</marquee>
+
+    <img src="https://media.tenor.com/2nzJPPcHjFoAAAAi/hello-hi.gif" alt="Hello GIF">
+
+    <p><b>Check out my other websites!</b></p>
+    <ul>
+        <li><a href="https://thrunting.us">Visit Thrunting.us!</a></li>
+        <li><a href="https://nitsua.xyz">Check out Nitsua.xyz!</a></li>
+        <li><button class="freaky-button">Email Me! (Not working)</button></li> <!-- Halloween button -->
+    </ul>
+
+    <footer>
+        <p><b>This is a secure website:</b></p>
+        <img class="mcafee" src="https://www.charitonvalley.org/wp-content/uploads/2017/02/McAfee-SECURE-100.jpg" alt="McAfee Secure Badge">
+    </footer>
+
+    <!-- Minecraft Diamond Sword cursor -->
+    <a href="https://www.cursors-4u.com/cursor/2014/03/05/minecraft-diamond-sword.html" target="_blank" title="Minecraft - Diamond Sword">
+        <img src="https://cur.cursors-4u.net/cursor.png" border="0" alt="Minecraft - Diamond Sword" style="position:absolute; top: 0px; right: 0px;" />
+    </a>
+
+</body>
+</html>
