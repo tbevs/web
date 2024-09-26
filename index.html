@@ -59,7 +59,7 @@
             margin-top: 50px;
         }
         img.mcafee {
-            width: 100px; /* Reduce size of the McAfee logo */
+            width: 100px; /* Reduce size of the secure badge */
         }
 
         /* Animation for visitor count */
@@ -136,8 +136,12 @@
                 skeletonXPos += skeletonDx * direction;
 
                 // Reverse direction if it hits the boundaries
-                if (skeletonXPos <= 0 || skeletonXPos >= maxSkeletonX) {
-                    direction *= -1;
+                if (skeletonXPos <= 0) {
+                    skeletonXPos = 0; // Correct position to prevent getting stuck
+                    direction = 1;
+                } else if (skeletonXPos >= maxSkeletonX) {
+                    skeletonXPos = maxSkeletonX; // Correct position to prevent getting stuck
+                    direction = -1;
                 }
 
                 skeletonGif.style.left = skeletonXPos + 'px';
@@ -167,7 +171,7 @@
 
     <footer>
         <p><b>This is a secure website:</b></p>
-        <img class="mcafee" src="https://www.charitonvalley.org/wp-content/uploads/2017/02/McAfee-SECURE-100.jpg" alt="McAfee Secure Badge">
+        <img class="mcafee" src="https://m.media-amazon.com/images/I/71w8dDcOhbL.png" alt="Secure Badge">
     </footer>
 
     <!-- Minecraft Diamond Sword cursor -->
