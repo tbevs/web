@@ -107,7 +107,7 @@
         }
     </style>
     <script>
-        // JavaScript to update visitor counter and rapidly scale up and down
+        // JavaScript to update visitor counter and control the bouncing image
         window.onload = function() {
             // Function to generate a random number
             function generateRandomNumber() {
@@ -126,26 +126,31 @@
 
             // Bouncing image code
             var bouncingImage = document.getElementById('bouncingImage');
-            var maxX, maxY;
-            var dx = 1; // Slower speed horizontally
-            var dy = 1; // Slower speed vertically
+            var dx = 1; // Slower horizontal speed
+            var dy = 1; // Slower vertical speed
 
-            function updateMaxBounds() {
-                maxX = window.innerWidth - bouncingImage.width;
-                maxY = window.innerHeight - bouncingImage.height;
-            }
-
-            // Initialize the boundary values
-            updateMaxBounds();
-            window.addEventListener('resize', updateMaxBounds); // Update bounds on window resize
+            // Set the initial position of the image
+            bouncingImage.style.left = '0px';
+            bouncingImage.style.top = '0px';
 
             function moveImage() {
                 var rect = bouncingImage.getBoundingClientRect();
                 var x = rect.left + dx;
                 var y = rect.top + dy;
 
-                if (x <= 0 || x >= maxX) dx = -dx; // Reverse direction if it hits horizontal bounds
-                if (y <= 0 || y >= maxY) dy = -dy; // Reverse direction if it hits vertical bounds
+                // Get viewport width and height
+                var maxX = window.innerWidth - bouncingImage.width;
+                var maxY = window.innerHeight - bouncingImage.height;
+
+                // Prevent the image from going out of bounds
+                if (x <= 0 || x >= maxX) {
+                    dx = -dx;
+                    x = Math.max(0, Math.min(x, maxX));
+                }
+                if (y <= 0 || y >= maxY) {
+                    dy = -dy;
+                    y = Math.max(0, Math.min(y, maxY));
+                }
 
                 bouncingImage.style.left = x + 'px';
                 bouncingImage.style.top = y + 'px';
