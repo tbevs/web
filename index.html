@@ -12,6 +12,8 @@
             font-family: 'Comic Sans MS', cursive; /* Iconic 90s font */
             color: #0000FF; /* Bright blue text */
             text-align: center;
+            overflow: hidden; /* Prevent scroll bars */
+            position: relative; /* Enable absolute positioning for elements */
         }
         h1 {
             color: #FF0000; /* Bright red headers */
@@ -57,7 +59,7 @@
             margin-top: 50px;
         }
         img.mcafee {
-            width: 100px; /* Reduce size of the McAfee logo */
+            width: 100px; /* Reduce size of the secure badge */
         }
 
         /* Animation for visitor count */
@@ -96,9 +98,16 @@
             box-shadow: 5px 5px 30px #FF4500;
             text-shadow: 2px 2px 4px #000000;
         }
+
+        /* Skeleton GIF */
+        .skeleton-gif {
+            position: absolute;
+            bottom: 0; /* Position at the bottom of the screen */
+            width: 200px; /* Set the width of the skeleton GIF */
+        }
     </style>
     <script>
-        // JavaScript to update visitor counter and rapidly scale up and down
+        // JavaScript to update visitor counter and control the skeleton GIF animation
         window.onload = function() {
             // Function to generate a random number
             function generateRandomNumber() {
@@ -114,6 +123,33 @@
             }
 
             updateVisitorCounter(); // Start the random number update
+
+            // Skeleton GIF animation code
+            var skeletonGif = document.getElementById('skeletonGif');
+            var skeletonDx = 2; // Speed of the skeleton's horizontal movement
+            var skeletonXPos = 0; // Initial position
+            var direction = 1; // 1 for right, -1 for left
+
+            function moveSkeleton() {
+                var maxSkeletonX = window.innerWidth - skeletonGif.width;
+
+                skeletonXPos += skeletonDx * direction;
+
+                // Reverse direction if it hits the boundaries
+                if (skeletonXPos <= 0) {
+                    skeletonXPos = 0; // Correct position to prevent getting stuck
+                    direction = 1;
+                } else if (skeletonXPos >= maxSkeletonX) {
+                    skeletonXPos = maxSkeletonX; // Correct position to prevent getting stuck
+                    direction = -1;
+                }
+
+                skeletonGif.style.left = skeletonXPos + 'px';
+
+                requestAnimationFrame(moveSkeleton);
+            }
+
+            moveSkeleton(); // Start the skeleton's animation
         };
     </script>
 </head>
@@ -135,13 +171,16 @@
 
     <footer>
         <p><b>This is a secure website:</b></p>
-        <img class="mcafee" src="https://www.charitonvalley.org/wp-content/uploads/2017/02/McAfee-SECURE-100.jpg" alt="McAfee Secure Badge">
+        <img class="mcafee" src="https://m.media-amazon.com/images/I/71w8dDcOhbL.png" alt="Secure Badge">
     </footer>
 
     <!-- Minecraft Diamond Sword cursor -->
     <a href="https://www.cursors-4u.com/cursor/2014/03/05/minecraft-diamond-sword.html" target="_blank" title="Minecraft - Diamond Sword">
         <img src="https://cur.cursors-4u.net/cursor.png" border="0" alt="Minecraft - Diamond Sword" style="position:absolute; top: 0px; right: 0px;" />
     </a>
+
+    <!-- Skeleton GIF -->
+    <img id="skeletonGif" src="https://64.media.tumblr.com/a1abe0e85a5b010ab9b2d77ee785a2ae/tumblr_morqcrRb9z1swgfzvo1_400.gif" class="skeleton-gif" alt="Skeleton GIF">
 
 </body>
 </html>
