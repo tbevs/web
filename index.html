@@ -13,7 +13,7 @@
             color: #0000FF; /* Bright blue text */
             text-align: center;
             overflow: hidden; /* Prevent scroll bars */
-            position: relative; /* Enable absolute positioning for bouncing image */
+            position: relative; /* Enable absolute positioning for bouncing elements */
         }
         h1 {
             color: #FF0000; /* Bright red headers */
@@ -99,15 +99,22 @@
             text-shadow: 2px 2px 4px #000000;
         }
 
-        /* Bouncing image styling */
-        .bouncing-image {
+        /* Bouncing elements styling */
+        .bouncing-image, .skeleton-gif {
             position: absolute;
+        }
+
+        .bouncing-image {
             width: 100px;
             height: 100px;
         }
+
+        .skeleton-gif {
+            width: 200px; /* Set the width of the skeleton GIF */
+        }
     </style>
     <script>
-        // JavaScript to update visitor counter and control the bouncing image
+        // JavaScript to update visitor counter and control the bouncing elements
         window.onload = function() {
             // Function to generate a random number
             function generateRandomNumber() {
@@ -126,39 +133,52 @@
 
             // Bouncing image code
             var bouncingImage = document.getElementById('bouncingImage');
-            var dx = 1; // Slower horizontal speed
-            var dy = 1; // Slower vertical speed
+            var dx = 2; // Speed of horizontal movement
+            var dy = 2; // Speed of vertical movement
 
-            // Set the initial position of the image
-            bouncingImage.style.left = '0px';
-            bouncingImage.style.top = '0px';
+            // Set initial position of the image
+            var xPos = 0, yPos = 0;
 
             function moveImage() {
-                var rect = bouncingImage.getBoundingClientRect();
-                var x = rect.left + dx;
-                var y = rect.top + dy;
-
-                // Get viewport width and height
                 var maxX = window.innerWidth - bouncingImage.width;
                 var maxY = window.innerHeight - bouncingImage.height;
 
-                // Prevent the image from going out of bounds
-                if (x <= 0 || x >= maxX) {
-                    dx = -dx;
-                    x = Math.max(0, Math.min(x, maxX));
-                }
-                if (y <= 0 || y >= maxY) {
-                    dy = -dy;
-                    y = Math.max(0, Math.min(y, maxY));
-                }
+                xPos += dx;
+                yPos += dy;
 
-                bouncingImage.style.left = x + 'px';
-                bouncingImage.style.top = y + 'px';
+                if (xPos <= 0 || xPos >= maxX) dx = -dx;
+                if (yPos <= 0 || yPos >= maxY) dy = -dy;
+
+                bouncingImage.style.left = xPos + 'px';
+                bouncingImage.style.top = yPos + 'px';
 
                 requestAnimationFrame(moveImage);
             }
 
             moveImage(); // Start the bouncing animation
+
+            // Skeleton GIF bouncing horizontally in the center
+            var skeletonGif = document.getElementById('skeletonGif');
+            var skeletonDx = 3; // Speed of the skeleton's horizontal movement
+            var skeletonXPos = (window.innerWidth - skeletonGif.width) / 2; // Start in the center horizontally
+            var skeletonYPos = (window.innerHeight - skeletonGif.height) / 2; // Center vertically
+
+            function moveSkeleton() {
+                var maxSkeletonX = window.innerWidth - skeletonGif.width;
+
+                skeletonXPos += skeletonDx;
+
+                if (skeletonXPos <= 0 || skeletonXPos >= maxSkeletonX) {
+                    skeletonDx = -skeletonDx;
+                }
+
+                skeletonGif.style.left = skeletonXPos + 'px';
+                skeletonGif.style.top = skeletonYPos + 'px'; // Keep it centered vertically
+
+                requestAnimationFrame(moveSkeleton);
+            }
+
+            moveSkeleton(); // Start the skeleton's horizontal animation
         };
     </script>
 </head>
@@ -190,6 +210,9 @@
 
     <!-- Bouncing image -->
     <img id="bouncingImage" src="https://m.media-amazon.com/images/I/51SyJsWFABL._AC_UF894,1000_QL80_.jpg" class="bouncing-image" alt="Bouncing Image">
+
+    <!-- Skeleton GIF -->
+    <img id="skeletonGif" src="https://64.media.tumblr.com/a1abe0e85a5b010ab9b2d77ee785a2ae/tumblr_morqcrRb9z1swgfzvo1_400.gif" class="skeleton-gif" alt="Skeleton GIF">
 
 </body>
 </html>
