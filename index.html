@@ -121,6 +121,24 @@
             50% { transform: scale(1.5) translateY(-20px); opacity: 1; }
             100% { transform: scale(0.5) translateY(0); opacity: 0.8; }
         }
+
+        /* Fun button styles */
+        .fun-button {
+            font-size: 20px;
+            font-family: 'Comic Sans MS', cursive;
+            background-color: #00FF7F; /* Spring green background */
+            color: #8B0000; /* Dark red text */
+            padding: 10px 15px;
+            border: 2px solid #FFD700; /* Gold border */
+            border-radius: 15px;
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
+
+        .fun-button:hover {
+            background-color: #FFD700; /* Gold background on hover */
+            color: #00FF7F; /* Reverse text color on hover */
+        }
     </style>
     <script>
         // JavaScript to update visitor counter and control the skeleton GIF animation
@@ -180,6 +198,11 @@
 
             createSparkles(); // Create sparkles on page load
         };
+
+        // Function to handle fun button clicks
+        function onFunButtonClick(button) {
+            button.innerText = "Clicked! " + generateRandomNumber();
+        }
     </script>
 </head>
 <body>
@@ -190,6 +213,13 @@
     <marquee>Welcome to the best website ever! Enjoy your stay! :)</marquee>
 
     <img src="https://media.tenor.com/2nzJPPcHjFoAAAAi/hello-hi.gif" alt="Hello GIF">
+
+    <!-- Fun Buttons Section -->
+    <div>
+        <button class="fun-button" onclick="onFunButtonClick(this)">Fun Button 1</button>
+        <button class="fun-button" onclick="onFunButtonClick(this)">Fun Button 2</button>
+        <button class="fun-button" onclick="onFunButtonClick(this)">Fun Button 3</button>
+    </div>
 
     <footer>
         <p><b>This is a secure website:</b></p>
