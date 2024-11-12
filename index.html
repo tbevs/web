@@ -201,7 +201,15 @@
 
         // Function to handle fun button clicks
         function onFunButtonClick(button) {
-            button.innerText = "Clicked! " + generateRandomNumber();
+            const effects = [
+                () => alert('You clicked a fun button!'),
+                () => button.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)',
+                () => button.innerText = "Surprise! " + generateRandomNumber(),
+                () => button.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16),
+                () => document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16)
+            ];
+            const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+            randomEffect();
         }
     </script>
 </head>
