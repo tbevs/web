@@ -205,17 +205,6 @@
                 () => alert('You clicked a fun button!'),
                 () => button.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)',
                 () => button.innerText = "Surprise! " + generateRandomNumber(),
-                () => button.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16),
-                () => document.body.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16),
-                () => {
-                    const randomSize = Math.random() * 1.5 + 0.5;
-                    button.style.transform = 'scale(' + randomSize + ')';
-                }
-            ];
-            const effects = [
-                () => alert('You clicked a fun button!'),
-                () => button.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)',
-                () => button.innerText = "Surprise! " + generateRandomNumber(),
                 () => button.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16),
                 () => document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16)
             ];
@@ -234,7 +223,7 @@
     <img src="https://media.tenor.com/2nzJPPcHjFoAAAAi/hello-hi.gif" alt="Hello GIF">
 
     <!-- Fun Buttons Section -->
-    <div style="margin-top: 20px;">
+    <div>
         <button class="fun-button" onclick="onFunButtonClick(this)">Fun Button 1</button>
         <button class="fun-button" onclick="onFunButtonClick(this)">Fun Button 2</button>
         <button class="fun-button" onclick="onFunButtonClick(this)">Fun Button 3</button>
