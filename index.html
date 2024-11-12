@@ -105,6 +105,22 @@
             bottom: 0; /* Position at the bottom of the screen */
             width: 200px; /* Set the width of the skeleton GIF */
         }
+
+        /* Sparkles effect */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, white, rgba(255, 255, 255, 0));
+            opacity: 0.8;
+            animation: sparkle-animation 2s infinite ease-in-out;
+        }
+
+        @keyframes sparkle-animation {
+            0% { transform: scale(0.5) translateY(0); opacity: 0.8; }
+            50% { transform: scale(1.5) translateY(-20px); opacity: 1; }
+            100% { transform: scale(0.5) translateY(0); opacity: 0.8; }
+        }
     </style>
     <script>
         // JavaScript to update visitor counter and control the skeleton GIF animation
@@ -150,6 +166,19 @@
             }
 
             moveSkeleton(); // Start the skeleton's animation
+
+            // Sparkles effect
+            function createSparkles() {
+                for (var i = 0; i < 50; i++) {
+                    var sparkle = document.createElement('div');
+                    sparkle.classList.add('sparkle');
+                    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+                    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+                    document.body.appendChild(sparkle);
+                }
+            }
+
+            createSparkles(); // Create sparkles on page load
         };
     </script>
 </head>
