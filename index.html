@@ -85,19 +85,15 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .message, .hint {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .hint {
+        .queue-message {
+            margin-top: 20px;
+            font-size: 18px;
             color: #ff0;
-            display: none;
         }
-        .log {
+        .error-message {
             margin-top: 10px;
-            font-size: 12px;
-            color: #0f0;
-            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            color: #f00;
         }
     </style>
 </head>
@@ -117,112 +113,48 @@
                 <input type="submit" value="Login">
             </div>
         </form>
-        <button class="hint-button" id="hint-button">Show Password Hint</button>
         <div class="spinner" id="spinner"></div>
-        <div class="log" id="log"></div>
-        <div class="message" id="message"></div>
-        <div class="hint" id="hint">User: admin<br>Password: ab12cd34</div>
+        <div class="queue-message" id="queue-message"></div>
+        <div class="error-message" id="error-message"></div>
     </div>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form from redirecting
+        const loginForm = document.getElementById('login-form');
+        const spinner = document.getElementById('spinner');
+        const queueMessage = document.getElementById('queue-message');
+        const errorMessage = document.getElementById('error-message');
+        let queueStarted = false; // Track if the queue has already started
 
-            const formData = new FormData(this);
-            const formAction = 'https://docs.google.com/forms/d/1IEsX-1XvlogRsprTXArAgIM_CLFjVWuUtemC_6dGGm8/formResponse';
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
 
-            // Clear any previous error message
-            const messageElement = document.getElementById('message');
-            messageElement.textContent = '';
-
-            // Random loading time between 2 and 60 seconds
-            const loadingTime = Math.floor(Math.random() * 59000) + 2000; // Random time between 2000ms (2s) and 60000ms (60s)
-
-            // Show spinner
-            const spinner = document.getElementById('spinner');
-            const log = document.getElementById('log');
-            spinner.style.display = 'block';
-            log.innerHTML = ''; // Clear previous logs
-
-            // Array of technical-sounding terms with an initial attempt message
-            const technicalTerms = [
-                'Attempting to log in...',
-                'Establishing encrypted connection...',
-                'Authenticating user credentials...',
-                'Verifying session tokens...',
-                'Validating user permissions...',
-                'Querying active session list...',
-                'Cross-checking IP address...',
-                'Loading security modules...',
-                'Decrypting access tokens...',
-                'Resolving DNS entries...',
-                'Synchronizing server clocks...',
-                'Requesting data encryption keys...',
-                'Checking server certificate...',
-                'Running diagnostic tests...',
-                'Compiling security reports...',
-                'Evaluating session integrity...',
-                'Pinging backup servers...',
-                'Analyzing user fingerprint...',
-                'Requesting session verification...',
-                'Applying security patches...',
-                'Generating dynamic key pairs...',
-                'Checking network latency...',
-                'Logging request details...',
-                'Re-authenticating secure endpoints...',
-                'Clearing session cache...',
-                'Reconfiguring network routes...'
-            ];
-
-            // Display random terms at intervals
-            let index = 0;
-            const intervalId = setInterval(() => {
-                if (index === 0) {
-                    log.textContent = technicalTerms[index]; // Display the initial attempt message first
-                } else {
-                    const randomTerm = technicalTerms[Math.floor(Math.random() * (technicalTerms.length - 1)) + 1];
-                    const newLogEntry = document.createElement('div');
-                    newLogEntry.textContent = randomTerm;
-                    log.appendChild(newLogEntry);
-                }
-                index++;
-            }, Math.floor(Math.random() * 3000) + 1000); // Random interval between 1-4 seconds
-
-            // Simulate form submission after loading time
-            setTimeout(() => {
-                clearInterval(intervalId); // Stop displaying terms
-                spinner.style.display = 'none'; // Hide spinner
-
-                // Randomized error messages
-                const errorMessages = [
-                    'Login failed; error code 23',
-                    'Access denied; failed login attempt',
-                    'Login failed; incorrect credentials',
-                    'Authentication error; failed login',
-                    'System error; login failed',
-                    'Failed login; security check failed'
-                ];
-                const randomErrorMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)];
-                messageElement.textContent = randomErrorMessage;
-                messageElement.style.color = '#f00'; // Set message color to red
-
-                // Optional: Simulate form submission (commented out as it's just an example)
-                // fetch(formAction, {
-                //     method: 'POST',
-                //     body: formData,
-                //     mode: 'no-cors'
-                // });
-            }, loadingTime);
-        });
-
-        // Show/hide hint on button click
-        document.getElementById('hint-button').addEventListener('click', function() {
-            const hint = document.getElementById('hint');
-            if (hint.style.display === 'none' || hint.style.display === '') {
-                hint.style.display = 'block';
-            } else {
-                hint.style.display = 'none';
+            if (queueStarted) {
+                // Show error message if the queue is already running
+                errorMessage.textContent = "Error: You are already in the queue!";
+                return;
             }
+
+            queueStarted = true; // Mark the queue as started
+            errorMessage.textContent = ""; // Clear previous error message
+
+            // Initialize the queue number
+            let queueNumber = Math.floor(Math.random() * 71) + 30; // Random number between 30-100
+
+            // Show the spinner and queue message
+            spinner.style.display = 'block';
+            queueMessage.textContent = `You're in queue number: ${queueNumber}`;
+
+            // Countdown the queue number at random intervals
+            const queueInterval = setInterval(() => {
+                if (queueNumber > 1) {
+                    queueNumber--;
+                    queueMessage.textContent = `You're in queue number: ${queueNumber}`;
+                } else {
+                    clearInterval(queueInterval);
+                    spinner.style.display = 'none'; // Hide the spinner
+                    queueMessage.textContent = "Processing your request...";
+                }
+            }, Math.floor(Math.random() * 20000) + 10000); // Random interval between 10-30 seconds
         });
     </script>
 </body>
