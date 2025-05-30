@@ -22,14 +22,10 @@
     blink, .blink {
       animation: blink-animation 1s steps(5, start) infinite;
     }
-    @keyframes blink-animation {
-      to { visibility: hidden; }
-    }
+    @keyframes blink-animation { to { visibility: hidden; } }
 
     /* --- Login form styling --- */
-    #loginForm {
-      margin-top: 60px;
-    }
+    #loginForm { margin-top: 60px; }
     input {
       font-family: 'Comic Sans MS', cursive;
       font-size: 22px;
@@ -57,37 +53,108 @@
     }
 
     /* --- Loading screen --- */
-    #loadingScreen {
-      display: none;
-      margin-top: 60px;
-    }
-
+    #loadingScreen { display: none; margin-top: 60px; }
     #progressContainer {
-      width: 80%;
-      height: 30px;
-      margin: 0 auto 25px auto;
-      background-color: #000000;
-      border: 3px solid #00FF00; /* Green border */
+      width: 80%; height: 30px; margin: 0 auto 25px auto;
+      background-color: #000000; border: 3px solid #00FF00;
     }
     #progressBar {
-      width: 0%;
-      height: 100%;
-      background-color: #FF00FF; /* Magenta bar */
+      width: 0%; height: 100%; background-color: #FF00FF;
       animation: load 8s linear infinite;
     }
-    @keyframes load {
-      0%   { width: 0%; }
-      50%  { width: 100%; }
-      100% { width: 0%; }
+    @keyframes load { 0% {width:0%} 50% {width:100%} 100% {width:0%} }
+
+    /* ---------------- Fake 90s popup windows ---------------- */
+    .popup {
+      position: absolute;
+      width: 260px;
+      background-color: #C0C0C0; /* Classic Win95 gray */
+      border: 3px solid #000080; /* Dark blue border */
+      box-shadow: 5px 5px 0px #404040;
+      z-index: 9999;
+      user-select: none;
     }
+    .titlebar {
+      background-color: #000080; /* Win95 blue */
+      color: white;
+      font-size: 14px;
+      padding: 2px 6px;
+      text-align: left;
+    }
+    .titlebar span { float: right; cursor: pointer; font-weight: bold; }
+    .popup-content { font-size: 16px; padding: 15px; color: black; }
+    .popup-btn {
+      font-size: 14px; padding: 2px 12px;
+      margin-top: 10px;
+      background-color: #D4D0C8;
+      border: 2px solid #808080;
+      cursor: pointer;
+    }
+    .popup-btn:active { border-style: inset; }
   </style>
+
+  <audio id="popupSound" src="https://freesound.org/data/previews/170/170523_2437358-lq.mp3"></audio>
+
   <script>
+    // ---------- Login / Loading ----------
     function startLoading() {
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('loadingScreen').style.display = 'block';
-      // No redirect — just an endless faux load.
       return false; // Prevent actual form submission
     }
+
+    // ---------- 90s Pop‑up Spammer ----------
+    const popupMessages = [
+      '💾 Insert floppy disk to continue.',
+      'Error 47: Existence failure!',
+      'Congratulations! You're the 1,000,000th visitor! 💰',
+      'Warning: Your computer might already be infected!',
+      'Click OK to speed up your internet!',
+      '😱 ALERT: Unsaved work will be deleted!'
+    ];
+
+    function createPopup() {
+      const pop = document.createElement('div');
+      pop.className = 'popup';
+      pop.style.left = Math.random() * (window.innerWidth - 280) + 'px';
+      pop.style.top  = Math.random() * (window.innerHeight - 180) + 'px';
+
+      // Title bar
+      const bar = document.createElement('div');
+      bar.className = 'titlebar';
+      bar.innerHTML = 'Message&nbsp;from&nbsp;System<span>X</span>';
+      pop.appendChild(bar);
+
+      // Content
+      const content = document.createElement('div');
+      content.className = 'popup-content';
+      content.innerHTML = popupMessages[Math.floor(Math.random() * popupMessages.length)];
+      const btn = document.createElement('button');
+      btn.className = 'popup-btn';
+      btn.innerText = 'OK';
+      content.appendChild(document.createElement('br'));
+      content.appendChild(btn);
+      pop.appendChild(content);
+
+      // Close logic: spawn MORE! 😈
+      function closeAndSpawnMore() {
+        pop.remove();
+        for (let i = 0; i < 3; i++) setTimeout(createPopup, i * 500);
+      }
+      bar.querySelector('span').onclick = closeAndSpawnMore;
+      btn.onclick = closeAndSpawnMore;
+
+      document.body.appendChild(pop);
+
+      // Play retro ding
+      const ding = document.getElementById('popupSound');
+      if (ding) { ding.currentTime = 0; ding.play(); }
+    }
+
+    // Every 7 seconds spawn a popup
+    setInterval(createPopup, 7000);
+    // Spawn one immediately
+    window.onload = createPopup;
   </script>
 </head>
 <body>
@@ -103,7 +170,7 @@
 
   <!-- Endless loading screen -->
   <div id="loadingScreen">
-    <p><blink>Loading super‑admin dashboard… please wait…</blink></p>
+    <p><blink>Loading super-admin dashboard… please wait…</blink></p>
     <div id="progressContainer"><div id="progressBar"></div></div>
     <img src="https://i.gifer.com/ZZ5H.gif" alt="Spinning loading" width="150">
     <marquee scrollamount="10">Establishing secure connection to the mainframe…</marquee>
