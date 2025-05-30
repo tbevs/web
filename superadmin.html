@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Super Admin Login - TylerBever.com!</title>
+  <style>
+    * { cursor: url('https://ani.cursors-4u.net/games/gam-16/gam1537.cur'), auto !important; }
+    body {
+      background-color: #FFCC00; /* Same bright yellow 90s background */
+      font-family: 'Comic Sans MS', cursive;
+      color: #0000FF; /* Bright blue text */
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      color: #FF0000; /* Bright red headers */
+      text-decoration: underline;
+    }
+    marquee {
+      font-size: 20px;
+      color: #008000; /* Green scrolling text */
+    }
+    blink, .blink {
+      animation: blink-animation 1s steps(5, start) infinite;
+    }
+    @keyframes blink-animation {
+      to { visibility: hidden; }
+    }
+
+    /* --- Login form styling --- */
+    #loginForm {
+      margin-top: 60px;
+    }
+    input {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 22px;
+      padding: 6px 8px;
+      margin: 6px;
+      border: 3px solid #FF00FF; /* Magenta border */
+      background-color: #FFFF00; /* Yellow background */
+      color: #0000FF; /* Blue text */
+    }
+    #loginBtn {
+      font-size: 24px;
+      font-family: 'Impact', 'Arial Black', cursive;
+      background-color: #FFFF00;
+      color: #FF00FF;
+      padding: 6px 18px;
+      border: 3px solid #00FF00;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    #loginBtn:hover {
+      background-color: #FF00FF; /* Magenta on hover */
+      color: #00FFFF; /* Cyan text */
+      border-color: #FF0000; /* Red border */
+    }
+
+    /* --- Loading screen --- */
+    #loadingScreen {
+      display: none;
+      margin-top: 60px;
+    }
+
+    #progressContainer {
+      width: 80%;
+      height: 30px;
+      margin: 0 auto 25px auto;
+      background-color: #000000;
+      border: 3px solid #00FF00; /* Green border */
+    }
+    #progressBar {
+      width: 0%;
+      height: 100%;
+      background-color: #FF00FF; /* Magenta bar */
+      animation: load 8s linear infinite;
+    }
+    @keyframes load {
+      0%   { width: 0%; }
+      50%  { width: 100%; }
+      100% { width: 0%; }
+    }
+  </style>
+  <script>
+    function startLoading() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('loadingScreen').style.display = 'block';
+      // No redirect — just an endless faux load.
+      return false; // Prevent actual form submission
+    }
+  </script>
+</head>
+<body>
+  <h1 class="blink">Super Admin Login</h1>
+  <marquee behavior="alternate" scrollamount="12">AUTHORIZED PERSONNEL ONLY ⚠️</marquee>
+
+  <!-- Fake login form -->
+  <form id="loginForm" onsubmit="return startLoading();">
+    <input type="text" placeholder="User Name" required><br>
+    <input type="password" placeholder="Password" required><br>
+    <input type="submit" id="loginBtn" value="Login">
+  </form>
+
+  <!-- Endless loading screen -->
+  <div id="loadingScreen">
+    <p><blink>Loading super‑admin dashboard… please wait…</blink></p>
+    <div id="progressContainer"><div id="progressBar"></div></div>
+    <img src="https://i.gifer.com/ZZ5H.gif" alt="Spinning loading" width="150">
+    <marquee scrollamount="10">Establishing secure connection to the mainframe…</marquee>
+  </div>
+</body>
+</html>
