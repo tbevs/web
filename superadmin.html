@@ -93,21 +93,24 @@
     .popup-btn:active { border-style: inset; }
   </style>
 
-  <audio id="popupSound" src="https://freesound.org/data/previews/170/170523_2437358-lq.mp3"></audio>
+  <!-- Tiny WAV ensures no CORS headaches -->
+  <audio id="popupSound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRu4AAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0Yb4AAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=" type="audio/wav">
+  </audio>
 
   <script>
     // ---------- Login / Loading ----------
     function startLoading() {
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('loadingScreen').style.display = 'block';
-      return false; // Prevent actual form submission
+      return false; // Prevent actual form submission / page reload
     }
 
     // ---------- 90s Pop‑up Spammer ----------
     const popupMessages = [
       '💾 Insert floppy disk to continue.',
       'Error 47: Existence failure!',
-      'Congratulations! You're the 1,000,000th visitor! 💰',
+      'Congratulations! You\'re the 1,000,000th visitor! 💰',
       'Warning: Your computer might already be infected!',
       'Click OK to speed up your internet!',
       '😱 ALERT: Unsaved work will be deleted!'
@@ -146,15 +149,26 @@
 
       document.body.appendChild(pop);
 
-      // Play retro ding
+      // Play retro ding (small inline wav avoids CORS / mixed‑content issues)
       const ding = document.getElementById('popupSound');
       if (ding) { ding.currentTime = 0; ding.play(); }
     }
 
-    // Every 7 seconds spawn a popup
-    setInterval(createPopup, 7000);
-    // Spawn one immediately
-    window.onload = createPopup;
+    // ---------- Event wiring once DOM ready ----------
+    window.addEventListener('DOMContentLoaded', () => {
+      // Spawn one popup right away + set interval
+      createPopup();
+      setInterval(createPopup, 7000);
+
+      // Ensure clicking the Login button triggers loading even if form JS is blocked
+      const btn = document.getElementById('loginBtn');
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          startLoading();
+        });
+      }
+    });
   </script>
 </head>
 <body>
@@ -162,7 +176,7 @@
   <marquee behavior="alternate" scrollamount="12">AUTHORIZED PERSONNEL ONLY ⚠️</marquee>
 
   <!-- Fake login form -->
-  <form id="loginForm" onsubmit="return startLoading();">
+  <form id="loginForm">
     <input type="text" placeholder="User Name" required><br>
     <input type="password" placeholder="Password" required><br>
     <input type="submit" id="loginBtn" value="Login">
